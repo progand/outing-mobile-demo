@@ -22,7 +22,7 @@
     <StackLayout *ngIf="error">
       <Label text="Please, check your internet connection. " class="title"></Label>
       <Label text="An error occured:" class="error"></Label>
-      <TextView [text]="error.toString()"></TextView>
+      <TextView [text]="error.toString()" editable="false"></TextView>
     </StackLayout>
   </PullToRefresh>
 

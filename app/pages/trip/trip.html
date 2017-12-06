@@ -13,9 +13,9 @@
         <Label [text]="partnersCount(trip)" class="muted"></Label>
         <Label [text]="budget(trip)"></Label>
         <Label [text]="tags(trip)" class="blue"></Label>
-        <TextView [text]="trip.description"></TextView>
-        <TextView [text]="trip.descriptionDetails"></TextView>
-        <TextView [text]="trip.requirements"></TextView>
+        <TextView [text]="trip.description" editable="false"></TextView>
+        <TextView [text]="trip.descriptionDetails" editable="false"></TextView>
+        <TextView [text]="trip.requirements" editable="false"></TextView>
       </StackLayout>
     </ScrollView>
     <PullToRefresh *tabItem="{title: 'Travellers'}" (refresh)="refreshTrip($event)">
