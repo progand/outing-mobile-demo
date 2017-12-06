@@ -1,0 +1,39 @@
+<GridLayout rows="auto, *">
+
+
+  <TabView *ngIf="isLoaded" row="1" selectedIndex="0" iosIconRenderingMode="alwaysOriginal">
+    <ScrollView *tabItem="{title: 'General'}">
+      <StackLayout>        
+        <ImageSwipe *ngIf="trip.photos.length" [items]="images" imageUrlProperty="url" [height]="imageHeight"></ImageSwipe>
+        <Label [text]="trip.name"></Label>
+        <Label [text]="dateInterval(trip)" class="muted"></Label>
+        <WrapLayout orientation="horizontal" class="destinations">
+          <Label *ngFor="let dest of trip.destination; let i = index" [text]="dest"></Label>
+        </WrapLayout>
+        <Label [text]="partnersCount(trip)" class="muted"></Label>
+        <Label [text]="budget(trip)"></Label>
+        <Label [text]="tags(trip)" class="blue"></Label>
+        <TextView [text]="trip.description"></TextView>
+        <TextView [text]="trip.descriptionDetails"></TextView>
+        <TextView [text]="trip.requirements"></TextView>
+      </StackLayout>
+    </ScrollView>
+    <PullToRefresh *tabItem="{title: 'Travellers'}" (refresh)="refreshTrip($event)">
+      <ListView [items]="trip.travellers">
+        <ng-template let-item="item">
+          <StackLayout class="traveller" orientation="horizontal">
+            <Image [src]="getPhoto(item.user.photo)" stretch="aspectFit"></Image>
+            <StackLayout>
+              <Label [text]="item.user.name" class="caption"></Label>
+              <Label [text]="travellerInfo(item)" class="info" [style]="travellerStyle(item)"></Label>
+            </StackLayout>
+          </StackLayout>
+        </ng-template>
+      </ListView>
+    </PullToRefresh>
+  </TabView>
+
+  <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center"
+    verticalAlignment="center"></ActivityIndicator>
+
+</GridLayout>

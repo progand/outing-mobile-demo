@@ -1,0 +1,27 @@
+<GridLayout rows="auto, *">
+
+  <PullToRefresh (refresh)="refreshList($event)" row="1">
+    <ListView [items]="visibleTrips" [class.visible]="listLoaded" (loadMoreItems)="showMore()" (itemTap)="openTrip($event)">
+      <ng-template let-item="item">
+        <StackLayout class="component-trip-card">
+          <AbsoluteLayout>
+            <Image [src]="getPhoto(item.coverPhoto)" class="trip-image" left="0" top="0" [style]="imageStyle" 
+              [decodeHeight]="imageHeight" stretch="aspectFill"></Image>
+            <Label [text]="dateInterval(item)" class="date" left="0" top="3"></Label>
+            <Image [src]="getPhoto(item.organiser.photo)" class="user-tn" stretch="aspectFill" left="8" 
+              [top]="imageHeight-68" decodeHeight="60"decodeWidth="60"></Image>
+          </AbsoluteLayout>
+          <Label [text]="item.name" class="title"></Label>
+          <GridLayout columns="*, auto" class="muted">
+            <Label [text]="item.destination[0]" col="0" class="destination"></Label>
+            <Label [text]="item.approvedTravellersCount + '/' + item.partnersReqd" col="1" class="seats"></Label>
+          </GridLayout>
+        </StackLayout>        
+      </ng-template>
+    </ListView>
+  </PullToRefresh>
+
+  <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center"
+    verticalAlignment="center"></ActivityIndicator>
+
+</GridLayout>
