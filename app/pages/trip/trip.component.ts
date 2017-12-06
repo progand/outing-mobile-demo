@@ -24,6 +24,7 @@ export class TripComponent implements OnInit {
   
   isLoading = false;
   isLoaded = false;
+  error = null;
 
   constructor(private tripService: TripListService, private page: Page, private route: ActivatedRoute, ) {    
     this.tripId = this.route.snapshot.paramMap.get('id');
@@ -35,11 +36,15 @@ export class TripComponent implements OnInit {
 
   refresh() {
     this.isLoading = true;
+    this.error = null;
     this.tripService.loadOne(this.tripId)
       .subscribe(loadedTrip => {
         this.updateData(loadedTrip);
         this.isLoading = false;
         this.isLoaded = true;
+      }, err => {
+        this.error = err;
+        this.isLoading = false;
       });
   }
 
@@ -49,6 +54,9 @@ export class TripComponent implements OnInit {
       .subscribe(loadedTrip => {
         this.updateData(loadedTrip);
         pullRefresh.refreshing = false;
+      }, err => {
+        this.error = err;
+        this.isLoading = false;
       });
   }
 

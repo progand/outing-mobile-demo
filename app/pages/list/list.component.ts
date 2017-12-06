@@ -19,6 +19,7 @@ export class ListComponent implements OnInit {
   maxItems = 6;
   isLoading = false;
   listLoaded = false;
+  error = null;
   imageHeight = 219 * screen.mainScreen.widthDIPs / 350;
   imageStyle = `height: ${219 * screen.mainScreen.widthDIPs / 360}`;
 
@@ -35,6 +36,7 @@ export class ListComponent implements OnInit {
 
   refresh(silent = false) {
     this.isLoading = true;
+    this.error = null;
     this.tripService.load()
       .subscribe(loadedTrips => {
         loadedTrips
@@ -45,6 +47,9 @@ export class ListComponent implements OnInit {
         this.visibleTrips = this.allTrips.slice(0, this.maxItems);
         this.isLoading = false;
         this.listLoaded = true;
+      },  err => {
+        this.error = err;
+        this.isLoading = false;
       });
   }
 
@@ -80,6 +85,9 @@ export class ListComponent implements OnInit {
           this.allTrips.push(tripObject);
         });
         pullRefresh.refreshing = false;
+      }, err => {
+        this.error = err;
+        this.isLoading = false;
       });
   }
 }

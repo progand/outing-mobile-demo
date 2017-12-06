@@ -1,7 +1,7 @@
 <GridLayout rows="auto, *">
 
   <PullToRefresh (refresh)="refreshList($event)" row="1">
-    <ListView [items]="visibleTrips" [class.visible]="listLoaded" (loadMoreItems)="showMore()" (itemTap)="openTrip($event)">
+    <ListView *ngIf="!error" [items]="visibleTrips" [class.visible]="listLoaded" (loadMoreItems)="showMore()" (itemTap)="openTrip($event)">
       <ng-template let-item="item">
         <StackLayout class="component-trip-card">
           <AbsoluteLayout>
@@ -19,6 +19,11 @@
         </StackLayout>        
       </ng-template>
     </ListView>
+    <StackLayout *ngIf="error">
+      <Label text="Please, check your internet connection. " class="title"></Label>
+      <Label text="An error occured:" class="error"></Label>
+      <TextView [text]="error.toString()"></TextView>
+    </StackLayout>
   </PullToRefresh>
 
   <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center"
