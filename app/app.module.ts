@@ -24,4 +24,7 @@ import { routes, navigatableComponents } from "./app.routing";
   ],
   bootstrap: [AppComponent]
 })
+/*
+Pass your application module to the bootstrapModule function located in main.ts to start your app
+*/
 export class AppModule {}
