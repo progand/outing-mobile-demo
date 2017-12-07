@@ -14,6 +14,7 @@ const ngToolsWebpackOptions = { tsConfigPath: "tsconfig.aot.json" };
 
 const mainSheet = `app.css`;
 
+const imageSwipeMangleExcludes = require("nativescript-image-swipe/uglify-mangle-excludes").default;
 module.exports = env => {
     const platform = getPlatform(env);
 
@@ -212,7 +213,11 @@ function getPlugins(platform, env) {
         // Work around an Android issue by setting compress = false
         const compress = platform !== "android";
         plugins.push(new webpack.optimize.UglifyJsPlugin({
-            mangle: { except: nsWebpack.uglifyMangleExcludes },
+            mangle: { 
+                // https://market.nativescript.org/plugins/nativescript-image-swipe
+                // https://github.com/bradmartin/nativescript-pulltorefresh/blob/master/README.md
+                except: nsWebpack.uglifyMangleExcludes.concat(imageSwipeMangleExcludes, "TNS_SwipeRefreshListener") 
+            },
             compress,
         }));
     }
