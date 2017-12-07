@@ -3,3 +3,4 @@ platforms/
 hooks/
 npm-debug.log
 app/**/*.js
+report
