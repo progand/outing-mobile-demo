@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
@@ -22,7 +22,10 @@ import { routes, navigatableComponents } from "./app.routing";
     AppComponent,
     ...navigatableComponents
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+      NO_ERRORS_SCHEMA //makes webpack build work https://github.com/NativeScript/NativeScript/issues/3238
+  ]
 })
 /*
 Pass your application module to the bootstrapModule function located in main.ts to start your app

@@ -10,8 +10,9 @@ import { TripListService } from "../../shared/trip/trip-list.service";
 
 @Component({
   selector: "list",
-  templateUrl: "pages/trip/trip.html",
-  styleUrls: ["pages/trip/trip-common.css", "pages/trip/trip.css"],
+  moduleId: __filename,
+  templateUrl: "./trip.html",
+  styleUrls: ["./trip-common.css", "./trip.css"],
   providers: [TripListService]
 })
 export class TripComponent implements OnInit {
