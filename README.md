@@ -89,3 +89,9 @@ npm run build-android-bundle -- --release --keyStorePath ~/path/to/keystore --ke
 
 3. Obtain the release .apk located at `<app_name>/platforms/android/build/outputs/apk/<app_name>-release.apk`.
 4. Publish your Android app by uploading the .apk file to the Google Developer Console. For more information, see [How to publish an Android app](http://developer.android.com/distribute/googleplay/start.html)?
+
+Example build command: 
+
+```
+npm run build-android-bundle --uglify --snapshot -- --release --key-store-path ~/outing.jks --key-store-password outing --key-store-alias outing --key-store-alias-password outing
+```
