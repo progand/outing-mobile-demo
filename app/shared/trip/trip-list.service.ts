@@ -78,21 +78,23 @@ export class TripListService {
                     .then(res => res.json())
                     .then(data => data.photos)
             ]))
+            .then(([trip, travellers, users, photos]) => Promise.all([
+                trip,
+                travellers,
+                users.map(user => Object.assign({}, user, {
+                    photo: this.getByValue(photos, user.photo)
+                })),
+                photos
+            ]))
             .then(([trip, travellers, users, photos]) => Object.assign({}, trip, {
                 coverPhoto: this.getByValue(photos, trip.coverPhoto),
+                organiser: this.getByValue(users, trip.organiser),
                 photos: trip.photos.map(photoId => this.getByValue(photos, photoId)),
                 travellers: trip.travellers
                     .map(travellerId => this.getByValue(travellers, travellerId))
-                    .map(traveller => {
-                        const user = this.getByValue(users, traveller.user);
-                        //console.dir(user);
-                        //console.dir(photos)
-                        return Object.assign({}, traveller, {
-                            user: Object.assign({}, user, {
-                                photo: this.getByValue(photos, user.photo)
-                            })
-                        })
-                    })
+                    .map(traveller => Object.assign({}, traveller, {
+                        user: this.getByValue(users, traveller.user)
+                    }))
             }));
         return Observable.fromPromise(promise);
     }

@@ -15,7 +15,7 @@ Label {
   line-height: 1.1;
 }
 
-TextView{
+TextView {
   color: #5c5c5c;
 }
 
@@ -29,6 +29,16 @@ TextView{
 
 .destinations {
   background-color: #fdf6eb;
+}
+
+.organiser {
+  margin: 10 0;
+}
+
+.organiser Image {
+  height: 70;
+  width: 70;
+  margin: 0 10;
 }
 
 .traveller Image {

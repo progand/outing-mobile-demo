@@ -35,29 +35,26 @@ export class TripComponent implements OnInit {
     this.refresh();
   }
 
-  refresh() {
-    this.isLoading = true;
-    this.error = null;
+  refresh(args = null) {
+    let pullRefresh = args && args.object;
+    if (!pullRefresh) {
+      this.isLoading = true;
+    }    
     this.tripService.loadOne(this.tripId)
       .subscribe(loadedTrip => {
         this.updateData(loadedTrip);
         this.isLoading = false;
         this.isLoaded = true;
+        this.error = null;
+        if (pullRefresh) {
+          pullRefresh.refreshing = false;
+        }
       }, err => {
         this.error = err;
         this.isLoading = false;
-      });
-  }
-
-  refreshTrip(args) {
-    let pullRefresh = args.object;
-    this.tripService.loadOne(this.tripId)
-      .subscribe(loadedTrip => {
-        this.updateData(loadedTrip);
-        pullRefresh.refreshing = false;
-      }, err => {
-        this.error = err;
-        this.isLoading = false;
+        if (pullRefresh) {
+          pullRefresh.refreshing = false;
+        }
       });
   }
 
@@ -89,6 +86,16 @@ export class TripComponent implements OnInit {
 
   budget(trip: Trip){
     return `¥${trip.budgetFrom} - ${trip.budgetTo}`
+  }
+
+  organiserInfo(organiser: any = {}){
+    let info = '';
+    if(organiser.uni){
+      info += organiser.uni + ' | ';
+    }
+    const since = new Date(organiser.since);
+    info += 'Started ' + since.toDateString();
+    return info;
   }
 
   travellerInfo(traveller: any){
