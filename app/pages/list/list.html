@@ -1,6 +1,6 @@
 <GridLayout rows="auto, *">
 
-  <PullToRefresh (refresh)="refreshList($event)" row="1">
+  <PullToRefresh (refresh)="refresh($event)" row="1">
     <ListView *ngIf="!error" [items]="visibleTrips" [class.visible]="listLoaded" (loadMoreItems)="showMore()" (itemTap)="openTrip($event)">
       <ng-template let-item="item">
         <StackLayout class="component-trip-card">

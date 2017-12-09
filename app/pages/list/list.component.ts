@@ -30,37 +30,46 @@ export class ListComponent implements OnInit {
     //this.router.navigate(['/trips/239487a1-c482-4b2d-b227-04fe6dde539f']);
   }
 
-  ngOnInit() {  
+  ngOnInit() {
     // ToDo: uncomment  
     this.refresh();
   }
 
-  refresh(silent = false) {
-    this.isLoading = true;
+  refresh(args = null) {
+    let pullRefresh = args && args.object;
+    if (!pullRefresh) {
+      this.isLoading = true;
+    }
     this.error = null;
     this.tripService.load()
       .subscribe(loadedTrips => {
         loadedTrips
-        .filter(tripObject => tripObject.coverPhoto.sizes && tripObject.coverPhoto.sizes.default)
-        .forEach((tripObject) => {
-          this.allTrips.push(tripObject);
-        });
+          .filter(tripObject => tripObject.coverPhoto.sizes && tripObject.coverPhoto.sizes.default)
+          .forEach((tripObject) => {
+            this.allTrips.push(tripObject);
+          });
         this.visibleTrips = this.allTrips.slice(0, this.maxItems);
         this.isLoading = false;
         this.listLoaded = true;
-      },  err => {
+        if (pullRefresh) {
+          pullRefresh.refreshing = false;
+        }
+      }, err => {
         this.error = err;
         this.isLoading = false;
+        if (pullRefresh) {
+          pullRefresh.refreshing = false;
+        }
       });
   }
 
-  showMore(){
+  showMore() {
     this.maxItems += 6;
     this.visibleTrips = this.allTrips.slice(0, this.maxItems);
   }
 
-  openTrip(args){
-    const {id} = this.visibleTrips[args.index];
+  openTrip(args) {
+    const { id } = this.visibleTrips[args.index];
     const route = `/trips/${id}`;
     this.router.navigate([route]);
   }
@@ -73,22 +82,7 @@ export class ListComponent implements OnInit {
   dateInterval(trip: any) {
     const start = new Date(trip.dateStart);
     const end = new Date(trip.dateEnd);
- 
-    return `${start.toDateString()} - ${end.toDateString()}`;
-  }
 
-  refreshList(args) {
-    let pullRefresh = args.object;
-    this.tripService.load()
-      .subscribe(loadedTrips => {
-        this.allTrips = [];
-        loadedTrips.forEach((tripObject) => {          
-          this.allTrips.push(tripObject);
-        });
-        pullRefresh.refreshing = false;
-      }, err => {
-        this.error = err;
-        this.isLoading = false;
-      });
+    return `${start.toDateString()} - ${end.toDateString()}`;
   }
 }
