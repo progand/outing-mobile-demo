@@ -29,6 +29,7 @@ export class TripComponent implements OnInit {
 
   constructor(private tripService: TripListService, private page: Page, private route: ActivatedRoute, ) {    
     this.tripId = this.route.snapshot.paramMap.get('id');
+    this.page.actionBarHidden = true;
   }
 
   ngOnInit() {
@@ -60,7 +61,6 @@ export class TripComponent implements OnInit {
 
   updateData(trip: Trip){
     this.trip = trip;
-    this.page.actionBar.title = this.trip.name;
     this.images = this.trip.photos.map(photo => ({url: this.getPhoto(photo)}));
   }
 
