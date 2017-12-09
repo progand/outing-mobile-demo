@@ -13,6 +13,7 @@ export class Trip {
         public organiser: Object,
         public dateStart: Date,
         public dateEnd: Date,
+        public schedule: Array<Object>,
         public photos: Array<Object>,
         public tags: Array<String>,
         public travellers: Array<Object>) { }

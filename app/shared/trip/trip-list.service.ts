@@ -31,9 +31,10 @@ export class TripListService {
                         trip.organiser,
                         new Date(trip.dateStart),
                         new Date(trip.dateEnd),
-                        null,
-                        null,
-                        null,
+                        trip.schedule,
+                        trip.photos,
+                        trip.tags,
+                        trip.travellers,
                     ));
                 });
                 return list;
