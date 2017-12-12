@@ -9,7 +9,7 @@ import { Trip } from "../../shared/trip/trip";
 import { TripListService } from "../../shared/trip/trip-list.service";
 
 @Component({
-  selector: "list",
+  selector: "trip",
   moduleId: __filename,
   templateUrl: "./trip.html",
   styleUrls: ["./trip-common.css", "./trip.css"],
