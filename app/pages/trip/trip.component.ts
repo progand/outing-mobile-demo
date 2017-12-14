@@ -2,7 +2,7 @@ import { screen } from "tns-core-modules/platform";
 import { Page } from "ui/page";
 import { ScrollEventData } from "ui/scroll-view";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from "../../shared/trip/trip";
 import { TripListService } from "../../shared/trip/trip-list.service";
 
@@ -25,7 +25,7 @@ export class TripComponent implements OnInit {
   isLoaded = false;
   error = null;
 
-  constructor(private tripService: TripListService, private page: Page, private route: ActivatedRoute, ) {    
+  constructor(private tripService: TripListService, private page: Page, private route: ActivatedRoute, private router: Router) {    
     this.tripId = this.route.snapshot.paramMap.get('id');
     this.page.actionBarHidden = true;
   }
@@ -60,6 +60,15 @@ export class TripComponent implements OnInit {
   updateData(trip: Trip){
     this.trip = trip;
     this.images = this.trip.photos.map(photo => ({url: this.getPhoto(photo)}));
+  }
+
+  openTraveller(args) {
+    const id = this.trip.travellers[args.index].user.id;
+    this.openUser(id);
+  }
+  openUser(userId) {
+    const route = `/users/${userId}`;
+    this.router.navigate([route]);
   }
 
   getPhoto(photo: any, size = "default") {

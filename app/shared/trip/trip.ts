@@ -16,5 +16,5 @@ export class Trip {
         public schedule: Array<Object>,
         public photos: Array<Object>,
         public tags: Array<String>,
-        public travellers: Array<Object>) { }
+        public travellers: Array<any>) { }
 }

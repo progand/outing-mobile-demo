@@ -6,7 +6,7 @@
       <StackLayout>
         <ImageSwipe *ngIf="trip.photos.length" [items]="images" imageUrlProperty="url" [height]="imageHeight"></ImageSwipe>
         <Label [text]="trip.name"></Label>
-        <StackLayout class="organiser" orientation="horizontal">
+        <StackLayout (tap)="openUser(trip.organiser.id)" class="organiser" orientation="horizontal">
           <Image [src]="getPhoto(trip.organiser.photo)" stretch="aspectFit"></Image>
           <StackLayout>
             <Label [text]="trip.organiser.name" class="caption"></Label>
@@ -26,7 +26,7 @@
       </StackLayout>
     </ScrollView>
     <PullToRefresh *tabItem="{title: 'Travellers'}" (refresh)="refresh($event)">
-      <ListView [items]="trip.travellers">
+      <ListView [items]="trip.travellers" (itemTap)="openTraveller($event)">
         <ng-template let-item="item">
           <StackLayout class="traveller" orientation="horizontal">
             <Image [src]="getPhoto(item.user.photo)" stretch="aspectFit"></Image>
