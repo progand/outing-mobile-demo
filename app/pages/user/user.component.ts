@@ -3,8 +3,6 @@ import { Page } from "ui/page";
 import { ScrollEventData } from "ui/scroll-view";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
-import { registerElement } from "nativescript-angular/element-registry";
-registerElement("ImageSwipe", () => require("nativescript-image-swipe/image-swipe").ImageSwipe);
 import { User } from "../../shared/user/user";
 import { UserService } from "../../shared/user/user.service";
 
