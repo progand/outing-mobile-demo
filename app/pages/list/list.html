@@ -1,3 +1,7 @@
+<ActionBar title="OutingTravel">
+  <ActionItem (tap)="displaySortingDialog()" ios.systemIcon="7" ios.position="right" android.systemIcon="ic_menu_sort_by_size" android.position="actionBar"></ActionItem>
+</ActionBar>
+
 <GridLayout rows="auto, *">
 
   <PullToRefresh (refresh)="refresh($event)" row="1">
@@ -5,10 +9,10 @@
       <ng-template let-item="item">
         <StackLayout class="component-trip-card">
           <AbsoluteLayout>
-            <Image [src]="getPhoto(item.coverPhoto)" class="trip-image" left="0" top="0" [style]="imageStyle" 
-              [decodeHeight]="imageHeight" stretch="aspectFill"></Image>
+            <Image [src]="getPhoto(item.coverPhoto)" class="trip-image" left="0" top="0" [style]="imageStyle" [decodeHeight]="imageHeight"
+              stretch="aspectFill"></Image>
             <Label [text]="dateInterval(item)" class="date" left="0" top="3"></Label>
-            <Image [src]="getPhoto(item.organiser.photo)" (tap)="openUser(item.organiser.id)" class="user-tn" stretch="aspectFill" left="8" 
+            <Image [src]="getPhoto(item.organiser.photo)" (tap)="openUser(item.organiser.id)" class="user-tn" stretch="aspectFill" left="8"
               [top]="imageHeight-68" decodeHeight="60" decodeWidth="60"></Image>
           </AbsoluteLayout>
           <Label [text]="item.name" class="title"></Label>
@@ -16,7 +20,7 @@
             <Label [text]="item.destination[0]" col="0" class="destination"></Label>
             <Label [text]="item.approvedTravellersCount + '/' + item.partnersReqd" col="1" class="seats"></Label>
           </GridLayout>
-        </StackLayout>        
+        </StackLayout>
       </ng-template>
     </ListView>
     <StackLayout *ngIf="error">

@@ -1,6 +1,7 @@
 import { screen } from "tns-core-modules/platform";
 import { Page } from "ui/page";
 import { ScrollEventData } from "ui/scroll-view";
+import { action } from "ui/dialogs";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Trip } from "../../shared/trip/trip";
@@ -61,6 +62,21 @@ export class ListComponent implements OnInit {
           pullRefresh.refreshing = false;
         }
       });
+  }
+
+  displaySortingDialog() {
+    // >> action-dialog-code
+    let options = {
+      title: "Sort by",
+      message: "Choose the sorting way",
+      cancelButtonText: "Cancel",
+      actions: ["Recommended", "Date", "Availability"]
+    };
+
+    action(options).then((result) => {
+      console.log(result);
+    });
+    // << action-dialog-code
   }
 
   showMore() {
