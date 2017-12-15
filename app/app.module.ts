@@ -6,6 +6,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").PullToRefresh);
+registerElement("ImageSwipe", () => require("nativescript-image-swipe/image-swipe").ImageSwipe);
 
 import { AppComponent } from "./app.component";
 import { routes, navigatableComponents } from "./app.routing";

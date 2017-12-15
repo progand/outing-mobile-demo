@@ -8,8 +8,8 @@
             <Image [src]="getPhoto(item.coverPhoto)" class="trip-image" left="0" top="0" [style]="imageStyle" 
               [decodeHeight]="imageHeight" stretch="aspectFill"></Image>
             <Label [text]="dateInterval(item)" class="date" left="0" top="3"></Label>
-            <Image [src]="getPhoto(item.organiser.photo)" class="user-tn" stretch="aspectFill" left="8" 
-              [top]="imageHeight-68" decodeHeight="60"decodeWidth="60"></Image>
+            <Image [src]="getPhoto(item.organiser.photo)" (tap)="openUser(item.organiser.id)" class="user-tn" stretch="aspectFill" left="8" 
+              [top]="imageHeight-68" decodeHeight="60" decodeWidth="60"></Image>
           </AbsoluteLayout>
           <Label [text]="item.name" class="title"></Label>
           <GridLayout columns="*, auto" class="muted">
