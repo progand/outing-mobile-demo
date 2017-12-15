@@ -4,14 +4,14 @@ import { ScrollEventData } from "ui/scroll-view";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from "../../shared/trip/trip";
-import { TripListService } from "../../shared/trip/trip-list.service";
+import { TripService } from "../../shared/trip/trip.service";
 
 @Component({
   selector: "trip",
   moduleId: __filename,
   templateUrl: "./trip.html",
   styleUrls: ["./trip-common.css", "./trip.css"],
-  providers: [TripListService]
+  providers: [TripService]
 })
 export class TripComponent implements OnInit {
   @ViewChild("container") container: ElementRef;
@@ -25,7 +25,7 @@ export class TripComponent implements OnInit {
   isLoaded = false;
   error = null;
 
-  constructor(private tripService: TripListService, private page: Page, private route: ActivatedRoute, private router: Router) {    
+  constructor(private tripService: TripService, private page: Page, private route: ActivatedRoute, private router: Router) {    
     this.tripId = this.route.snapshot.paramMap.get('id');
     this.page.actionBarHidden = true;
   }

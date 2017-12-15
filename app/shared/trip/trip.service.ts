@@ -7,7 +7,7 @@ import { Config } from "../config";
 import { Trip } from "./trip";
 
 @Injectable()
-export class TripListService {
+export class TripService {
     constructor(private http: Http) { }
 
     load() {

@@ -11,5 +11,5 @@ export class User {
         public photo: Object,
         public wishlisted: Array<Object>,
         public photos: Array<Object>,
-        public travellers: Array<Object>) { }
+        public travellers: Array<any>) { }
 }

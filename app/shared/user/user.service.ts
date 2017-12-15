@@ -29,12 +29,26 @@ export class UserService {
                     .then(data => data.travellers),
 
             ]))
-            .then(([user, photos, travellers]) => Object.assign({}, user, {
+            .then(([user, photos, travellers]) => Promise.all([
+                user,
+                photos,
+                travellers,
+                this.http.get(Config.apiUrl + "/models/trips/?ids[]=" + travellers
+                    .reduce((result, travellerData) => result.concat([travellerData.trip]), [])
+                    .join("&ids[]="))
+                    .toPromise()
+                    .then(res => res.json())
+                    .then(data => data.trips)
+            ]))
+            .then(([user, photos, travellers, trips=[]]) => Object.assign({}, user, {
                 coverPhoto: this.getByValue(photos, user.coverPhoto),
                 photo: this.getByValue(photos, user.photo),
                 photos: user.photos.map(photoId => this.getByValue(photos, photoId)),
                 travellers: user.travellers
                     .map(travellerId => this.getByValue(travellers, travellerId))
+                    .map(traveller => Object.assign({}, traveller, {
+                        trip: this.getByValue(trips, traveller.trip)
+                    }))
             }));
         return Observable.fromPromise(promise);
     }
