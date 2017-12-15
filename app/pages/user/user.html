@@ -1,0 +1,38 @@
+<GridLayout rows="auto, *">
+
+  <TabView *ngIf="isLoaded" row="1" selectedIndex="0" iosIconRenderingMode="alwaysOriginal">
+    <ScrollView *tabItem="{title: 'General'}">
+      <StackLayout>
+        <Image [src]="getPhoto(user.photo, 'medium')" stretch="aspectFill" [height]="imageHeight" [decodeHeight]="imageHeight"></Image>
+        <Label [text]="user.name"></Label>
+        <Label [text]="user.location"></Label>
+        <Label [text]="user.uni"></Label>
+        <Label [text]="since(user.since)"></Label>
+        <TextView [text]="user.bio" editable="false"></TextView>
+        <WrapLayout orientation="horizontal">
+          <Label *ngFor="let hobby of user.hobbies; let i = index" [text]="hobby" class="blue"></Label>
+        </WrapLayout>
+      </StackLayout>
+    </ScrollView>
+    <PullToRefresh *tabItem="{title: 'Adventures'}" (refresh)="refresh($event)">
+      <ListView [items]="user.travellers" (itemTap)="openTrip($event)">
+        <ng-template let-item="item">
+          <Label [text]="item.trip.name" [class]="item.approved ? '' : 'muted'"></Label>
+        </ng-template>
+      </ListView>
+    </PullToRefresh>
+    <ScrollView *tabItem="{title: 'Photos'}">
+      <ImageSwipe *ngIf="user.photos.length" [items]="images" imageUrlProperty="url" [height]="imageHeight"></ImageSwipe>
+    </ScrollView>
+  </TabView>
+
+  <StackLayout *ngIf="error" row="1">
+    <Label text="Please, check your internet connection. " class="title"></Label>
+    <Label text="An error occured:" class="error"></Label>
+    <TextView [text]="error.toString()"></TextView>
+  </StackLayout>
+
+  <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center"
+    verticalAlignment="center"></ActivityIndicator>
+
+</GridLayout>

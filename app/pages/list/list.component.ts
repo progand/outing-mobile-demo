@@ -4,14 +4,14 @@ import { ScrollEventData } from "ui/scroll-view";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Trip } from "../../shared/trip/trip";
-import { TripListService } from "../../shared/trip/trip-list.service";
+import { TripService } from "../../shared/trip/trip.service";
 
 @Component({
   selector: "list",
   moduleId: __filename,
   templateUrl: "./list.html",
   styleUrls: ["./list-common.css", "./list.css"],
-  providers: [TripListService]
+  providers: [TripService]
 })
 export class ListComponent implements OnInit {
   @ViewChild("container") container: ElementRef;
@@ -24,10 +24,10 @@ export class ListComponent implements OnInit {
   imageHeight = 219 * screen.mainScreen.widthDIPs / 350;
   imageStyle = `height: ${219 * screen.mainScreen.widthDIPs / 360}`;
 
-  constructor(private tripService: TripListService, private page: Page, private router: Router) {
+  constructor(private tripService: TripService, private page: Page, private router: Router) {
     this.page.actionBar.title = "OutingTravel";
     // ToDo: remove line below
-    //this.router.navigate(['/trips/f5fddc6e-ac50-4a6c-bda3-d25348f3e7b1']);
+    //this.router.navigate(['/users/local-1e22817080e04b49f44742d0588654f6b383c97e137c1f55110860547a9c90ab']);
   }
 
   ngOnInit() {
@@ -71,6 +71,10 @@ export class ListComponent implements OnInit {
   openTrip(args) {
     const { id } = this.visibleTrips[args.index];
     const route = `/trips/${id}`;
+    this.router.navigate([route]);
+  }
+  openUser(userId) {
+    const route = `/users/${userId}`;
     this.router.navigate([route]);
   }
 
