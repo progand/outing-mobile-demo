@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
     let pullRefresh = args && args.object;
     if (!pullRefresh) {
       this.isLoading = true;
-    }    
+    }
     this.tripService.load()
       .subscribe(loadedTrips => {
         loadedTrips
@@ -64,8 +64,10 @@ export class ListComponent implements OnInit {
   }
 
   showMore() {
-    this.maxItems += 6;
-    this.visibleTrips = this.allTrips.slice(0, this.maxItems);
+    const start = this.visibleTrips.length;
+    const end = start + this.maxItems;
+    const moreTrips = this.allTrips.slice(start, end);
+    Array.prototype.push.apply(this.visibleTrips, moreTrips);
   }
 
   openTrip(args) {
@@ -90,20 +92,20 @@ export class ListComponent implements OnInit {
     return `${start.toDateString()} - ${end.toDateString()}`;
   }
 
-  sortTrips(trip1, trip2){ 
+  sortTrips(trip1, trip2) {
     const total1 = this.getTripTotal(trip1);
     const total2 = this.getTripTotal(trip2);
-    if(total1 !== total2){
+    if (total1 !== total2) {
       return total2 - total1;
     }
     return 0;
   }
 
-  getTripTotal(trip){
+  getTripTotal(trip) {
     const photos = (trip.photos || []).length;
     const travellers = (trip.travellers || []).length;
     const schedules = (trip.schedule || []).length;
 
-    return photos + schedules + travellers/3;
+    return photos + schedules + travellers / 3;
   }
 }
