@@ -151,7 +151,7 @@ export class ListComponent implements AfterViewInit, OnInit {
     return photos + schedules + travellers / 3;
   }
 
-  public onCloseDrawerTap() {
-    this.drawer.closeDrawer();
+  public onToggleDrawerTap() {
+    this.drawer.toggleDrawerState();
   }
 }

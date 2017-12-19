@@ -1,19 +1,21 @@
 <ActionBar title="OutingTravel">
+  <NavigationButton (tap)="onToggleDrawerTap()" text="" android.systemIcon="ic_menu_moreoverflow" ></NavigationButton>
+  <ActionItem (tap)="onToggleDrawerTap()" ios.systemIcon="10" ios.position="left"></ActionItem>
   <ActionItem (tap)="displaySortingDialog()" ios.systemIcon="7" ios.position="right" android.systemIcon="ic_menu_sort_by_size"
     android.position="actionBar"></ActionItem>
 </ActionBar>
 
-<RadSideDrawer tkExampleTitle tkToggleNavButton showOverNavigation="true" >
+<RadSideDrawer tkExampleTitle tkToggleNavButton showOverNavigation="true">
 
   <StackLayout tkDrawerContent class="sideStackLayout">
     <StackLayout class="sideTitleStackLayout">
       <Label text="Navigation Menu"></Label>
     </StackLayout>
     <StackLayout class="sideStackLayout">
-      <Label text="Trips" [nsRouterLink]="['trips']" class="sideLabel sideLightGrayLabel"></Label>
-      <Label text="Login" [nsRouterLink]="['login']" class="sideLabel"></Label>
+      <Label text="Trips" [nsRouterLink]="['/']" class="sideLabel sideLightGrayLabel"></Label>
+      <Label text="Login" [nsRouterLink]="['/login']" class="sideLabel"></Label>
     </StackLayout>
-    <Label text="Close Drawer" color="lightgray" padding="10" style="horizontal-align: center" (tap)="onCloseDrawerTap()"></Label>
+    <Label text="Close" color="lightgray" padding="10" style="horizontal-align: center" (tap)="onToggleDrawerTap()"></Label>
   </StackLayout>
   <GridLayout rows="auto, *" tkMainContent>
 
@@ -25,8 +27,8 @@
               <Image [src]="getPhoto(item.coverPhoto)" class="trip-image" left="0" top="0" [style]="imageStyle" [decodeHeight]="imageHeight"
                 stretch="aspectFill"></Image>
               <Label [text]="dateInterval(item)" class="date" left="0" top="3"></Label>
-              <Image [src]="getPhoto(item.organiser.photo)" [nsRouterLink]="['/users/' + item.organiser.id]" class="user-tn" stretch="aspectFill" left="8"
-                [top]="imageHeight-68" decodeHeight="60" decodeWidth="60"></Image>
+              <Image [src]="getPhoto(item.organiser.photo)" [nsRouterLink]="['/users/' + item.organiser.id]" class="user-tn" stretch="aspectFill"
+                left="8" [top]="imageHeight-68" decodeHeight="60" decodeWidth="60"></Image>
             </AbsoluteLayout>
             <Label [text]="item.name" class="title"></Label>
             <GridLayout columns="*, auto" class="muted">
