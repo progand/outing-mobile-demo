@@ -63,12 +63,8 @@ export class TripComponent implements OnInit {
   }
 
   openTraveller(args) {
-    const id = this.trip.travellers[args.index].user.id;
-    this.openUser(id);
-  }
-  openUser(userId) {
-    const route = `/users/${userId}`;
-    this.router.navigate([route]);
+    const userId = this.trip.travellers[args.index].user.id;
+    this.router.navigate([`/users/${userId}`]);
   }
 
   getPhoto(photo: any, size = "default") {
