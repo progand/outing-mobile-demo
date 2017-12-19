@@ -130,10 +130,6 @@ export class ListComponent implements AfterViewInit, OnInit {
     const route = `/trips/${id}`;
     this.router.navigate([route]);
   }
-  openUser(userId) {
-    const route = `/users/${userId}`;
-    this.router.navigate([route]);
-  }
 
   getPhoto(photo: any, size = "default") {
     const url = photo.sizes && photo.sizes[size] || photo.url;
