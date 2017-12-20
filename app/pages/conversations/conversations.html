@@ -1,0 +1,21 @@
+<GridLayout rows="auto, *">
+
+  <PullToRefresh (refresh)="refresh($event)" row="1">
+    <ListView *ngIf="!error" [items]="conversations" [class.visible]="isLoaded">
+      <ng-template let-item="item">
+        <StackLayout class="">         
+        </StackLayout>
+      </ng-template>
+    </ListView>
+    <StackLayout *ngIf="error">
+      <Label text="Please, check your internet connection. " class="title"></Label>
+      <Label text="An error occured:" class="error"></Label>
+      <TextView [text]="error.toString()" editable="false"></TextView>
+      <Button (tap)="refresh()" text="Try again"></Button>
+    </StackLayout>
+  </PullToRefresh>
+
+  <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center"
+    verticalAlignment="center"></ActivityIndicator>
+
+</GridLayout>

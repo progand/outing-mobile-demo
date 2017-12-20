@@ -9,6 +9,8 @@ import { registerElement } from "nativescript-angular/element-registry";
 registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").PullToRefresh);
 registerElement("ImageSwipe", () => require("nativescript-image-swipe/image-swipe").ImageSwipe);
 
+
+import { AuthService } from "./shared/auth/auth.service";
 import { AppComponent } from "./app.component";
 import { routes, navigatableComponents } from "./app.routing";
 
@@ -21,6 +23,7 @@ import { routes, navigatableComponents } from "./app.routing";
     NativeScriptRouterModule,
     NativeScriptRouterModule.forRoot(routes)
   ],
+  providers: [AuthService],
   declarations: [
     AppComponent,
     ...navigatableComponents

@@ -18,7 +18,7 @@ const SORT_BY_RECOMMENDED = "Recommended", SORT_BY_DATE = "Date", SORT_BY_AVAILA
   moduleId: __filename,
   templateUrl: "./list.html",
   styleUrls: ["./list-common.css", "./list.css"],
-  providers: [TripService, AuthService]
+  providers: [TripService]
 })
 export class ListComponent implements AfterViewInit, OnInit {
   @ViewChild("container") container: ElementRef;
@@ -36,7 +36,7 @@ export class ListComponent implements AfterViewInit, OnInit {
   constructor(private authService: AuthService, private tripService: TripService, private page: Page, private router: Router) {
     this.page.actionBar.title = "OutingTravel";
     // ToDo: remove line below
-    //this.router.navigate(['/login']);
+    //this.router.navigate(['/conversations']);
   }
 
   @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
@@ -49,8 +49,7 @@ export class ListComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.updateAutenticationStatus();
     // ToDo: uncomment  
-    this.refresh();
-    
+    this.refresh();    
   }
 
   refresh(args = null) {
@@ -116,7 +115,8 @@ export class ListComponent implements AfterViewInit, OnInit {
       actions: [SORT_BY_RECOMMENDED, SORT_BY_DATE, SORT_BY_AVAILABILITY]
     };
 
-    action(options).then((result) => {
+    action(options).then(result => {
+      if(result === "Cancel") return;
       this.sortBy = result;
       this.render();
     });

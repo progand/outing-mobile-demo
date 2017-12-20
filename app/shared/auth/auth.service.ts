@@ -45,7 +45,7 @@ export class AuthService {
         return !!this.token;
     }
 
-    public getProfile(){
+    public getProfile() {
         return this.profile || {};
     }
 
@@ -61,7 +61,6 @@ export class AuthService {
 
     private fetchToken() {
         this.token = getString(TOKEN);
-        console.log(`Fetched token ${this.token}`);
     }
 
     private requestProfile() {
