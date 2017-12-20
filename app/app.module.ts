@@ -3,6 +3,7 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { NativeScriptUISideDrawerModule } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").PullToRefresh);
@@ -16,6 +17,7 @@ import { routes, navigatableComponents } from "./app.routing";
     NativeScriptModule,
     NativeScriptFormsModule,
     NativeScriptHttpModule,
+    NativeScriptUISideDrawerModule,
     NativeScriptRouterModule,
     NativeScriptRouterModule.forRoot(routes)
   ],

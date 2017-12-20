@@ -2,10 +2,14 @@ import { screen } from "tns-core-modules/platform";
 import { Page } from "ui/page";
 import { ScrollEventData } from "ui/scroll-view";
 import { action } from "ui/dialogs";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, ViewChild, OnInit, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
+import { RadSideDrawerComponent, SideDrawerType } from "nativescript-pro-ui/sidedrawer/angular";
+import { RadSideDrawer } from 'nativescript-pro-ui/sidedrawer';
+
 import { Trip } from "../../shared/trip/trip";
 import { TripService } from "../../shared/trip/trip.service";
+import { AuthService } from "../../shared/auth/auth.service";
 
 const SORT_BY_RECOMMENDED = "Recommended", SORT_BY_DATE = "Date", SORT_BY_AVAILABILITY = "Availability";
 
@@ -14,9 +18,9 @@ const SORT_BY_RECOMMENDED = "Recommended", SORT_BY_DATE = "Date", SORT_BY_AVAILA
   moduleId: __filename,
   templateUrl: "./list.html",
   styleUrls: ["./list-common.css", "./list.css"],
-  providers: [TripService]
+  providers: [TripService, AuthService]
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements AfterViewInit, OnInit {
   @ViewChild("container") container: ElementRef;
   allTrips: Array<Trip> = [];
   visibleTrips: Array<Trip> = [];
@@ -27,16 +31,26 @@ export class ListComponent implements OnInit {
   imageHeight = 219 * screen.mainScreen.widthDIPs / 350;
   imageStyle = `height: ${219 * screen.mainScreen.widthDIPs / 360}`;
   sortBy = SORT_BY_RECOMMENDED;
+  isAuthenticated = false;
 
-  constructor(private tripService: TripService, private page: Page, private router: Router) {
+  constructor(private authService: AuthService, private tripService: TripService, private page: Page, private router: Router) {
     this.page.actionBar.title = "OutingTravel";
     // ToDo: remove line below
-    //this.router.navigate(['/users/local-1e22817080e04b49f44742d0588654f6b383c97e137c1f55110860547a9c90ab']);
+    //this.router.navigate(['/login']);
+  }
+
+  @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
+  private drawer: RadSideDrawer;
+
+  ngAfterViewInit() {
+    this.drawer = this.drawerComponent.sideDrawer;
   }
 
   ngOnInit() {
+    this.updateAutenticationStatus();
     // ToDo: uncomment  
     this.refresh();
+    
   }
 
   refresh(args = null) {
@@ -79,11 +93,11 @@ export class ListComponent implements OnInit {
         return total2 - total1;
       }
       return 0;
-    } else if(this.sortBy === SORT_BY_DATE){
-      if(trip1.dateStart > trip2.dateStart || trip1.dateEnd > trip2.dateEnd) return -1;
-      if(trip1.dateStart < trip2.dateStart || trip1.dateEnd < trip2.dateEnd) return 1;
+    } else if (this.sortBy === SORT_BY_DATE) {
+      if (trip1.dateStart > trip2.dateStart || trip1.dateEnd > trip2.dateEnd) return -1;
+      if (trip1.dateStart < trip2.dateStart || trip1.dateEnd < trip2.dateEnd) return 1;
       return 0;
-    } else if(this.sortBy === SORT_BY_AVAILABILITY){
+    } else if (this.sortBy === SORT_BY_AVAILABILITY) {
       const total1 = trip1.partnersReqd - trip1.approvedTravellersCount;
       const total2 = trip2.partnersReqd - trip2.approvedTravellersCount;
       if (total1 !== total2) {
@@ -120,9 +134,14 @@ export class ListComponent implements OnInit {
     const route = `/trips/${id}`;
     this.router.navigate([route]);
   }
-  openUser(userId) {
-    const route = `/users/${userId}`;
-    this.router.navigate([route]);
+
+  logout() {
+    this.authService.logout();
+    this.updateAutenticationStatus();
+  }
+
+  updateAutenticationStatus() {
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   getPhoto(photo: any, size = "default") {
@@ -143,5 +162,9 @@ export class ListComponent implements OnInit {
     const schedules = (trip.schedule || []).length;
 
     return photos + schedules + travellers / 3;
+  }
+
+  public onToggleDrawerTap() {
+    this.drawer.toggleDrawerState();
   }
 }

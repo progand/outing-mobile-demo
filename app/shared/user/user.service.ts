@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
+import { Http, Headers, Response, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 
@@ -40,7 +40,7 @@ export class UserService {
                     .then(res => res.json())
                     .then(data => data.trips)
             ]))
-            .then(([user, photos, travellers, trips=[]]) => Object.assign({}, user, {
+            .then(([user, photos, travellers, trips = []]) => Object.assign({}, user, {
                 coverPhoto: this.getByValue(photos, user.coverPhoto),
                 photo: this.getByValue(photos, user.photo),
                 photos: user.photos.map(photoId => this.getByValue(photos, photoId)),
@@ -55,5 +55,14 @@ export class UserService {
 
     getByValue(collection, fieldValue, fieldName = 'id') {
         return collection.find(item => item[fieldName] === fieldValue);
+    }
+
+    login(email: String, password: String) {       
+        const data = { email, password };
+        const promise = this.http.post(Config.apiUrl + "/auth/basic", data)
+            .toPromise()
+            .then(res => res.json());
+
+        return Observable.fromPromise(promise);
     }
 }

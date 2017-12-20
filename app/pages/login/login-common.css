@@ -1,0 +1,30 @@
+StackLayout {
+  margin-left: 30;
+  margin-right: 30;
+  padding-bottom: 15;
+  background-color: white;
+}
+Label{
+  color: #4c99ce;
+}
+.caption {
+  margin-top: 30;
+  margin-bottom: 30;
+  font-size: 30;
+  color: royalblue;
+  font-weight: bold;
+}
+Button, TextField {
+  margin-left: 16;
+  margin-right: 16;
+  margin-bottom: 10;
+}
+.submit-button {
+  background-color: #4c99ce;
+  color: white;
+  margin-top: 20;
+}
+
+.error{
+  color: red;
+}
