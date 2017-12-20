@@ -1,0 +1,16 @@
+<StackLayout *ngIf="!isAuthenticated">
+  <Label text="Outing Travel" horizontalAlignment="center" class="caption"></Label>
+  <Label *ngIf="isError" text="Wrong credentials" horizontalAlignment="center" class="error"></Label>
+  <TextField hint="Email Address" keyboardType="email" [(ngModel)]="email" autocorrect="false" autocapitalizationType="none"></TextField>
+  <TextField hint="Password" secure="true" [(ngModel)]="password"></TextField>
+
+  <Button [text]="inProgress ? 'Singing in...' : 'Sign in'" class="submit-button" (tap)="login()" [isEnabled]="!!(email && password) && !inProgress"></Button>
+  <Label text="Cancel" [nsRouterLink]="['/']"  horizontalAlignment="center"></Label>
+</StackLayout>
+
+<StackLayout *ngIf="isAuthenticated">
+  <Label text="Outing Travel" horizontalAlignment="center" class="caption"></Label>
+  <Label text="You're already signed in" horizontalAlignment="center"></Label>
+  <Button text="Logout" class="submit-button" (tap)="logout()"></Button>
+  <Label text="Back to trips" [nsRouterLink]="['/']"  horizontalAlignment="center"></Label>
+</StackLayout>

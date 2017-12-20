@@ -1,5 +1,5 @@
 <ActionBar title="OutingTravel">
-  <NavigationButton (tap)="onToggleDrawerTap()" text="" android.systemIcon="ic_menu_moreoverflow" ></NavigationButton>
+  <NavigationButton (tap)="onToggleDrawerTap()" text="" android.systemIcon="ic_menu_moreoverflow"></NavigationButton>
   <ActionItem (tap)="onToggleDrawerTap()" ios.systemIcon="10" ios.position="left"></ActionItem>
   <ActionItem (tap)="displaySortingDialog()" ios.systemIcon="7" ios.position="right" android.systemIcon="ic_menu_sort_by_size"
     android.position="actionBar"></ActionItem>
@@ -13,7 +13,11 @@
     </StackLayout>
     <StackLayout class="sideStackLayout">
       <Label text="Trips" [nsRouterLink]="['/']" class="sideLabel sideLightGrayLabel"></Label>
-      <Label text="Login" [nsRouterLink]="['/login']" class="sideLabel"></Label>
+      <Label *ngIf="!isAuthenticated" text="Login" [nsRouterLink]="['/login']" class="sideLabel"></Label>
+      <StackLayout *ngIf="isAuthenticated">
+        <Label text="Profile" [nsRouterLink]="['/users/' + authService.getProfile().id]" class="sideLabel"></Label>
+        <Label text="Logout" (tap)="logout()" class="sideLabel sideLightGrayLabel"></Label>
+      </StackLayout>
     </StackLayout>
     <Label text="Close" color="lightgray" padding="10" style="horizontal-align: center" (tap)="onToggleDrawerTap()"></Label>
   </StackLayout>

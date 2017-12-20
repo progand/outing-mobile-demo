@@ -9,6 +9,7 @@ import { RadSideDrawer } from 'nativescript-pro-ui/sidedrawer';
 
 import { Trip } from "../../shared/trip/trip";
 import { TripService } from "../../shared/trip/trip.service";
+import { AuthService } from "../../shared/auth/auth.service";
 
 const SORT_BY_RECOMMENDED = "Recommended", SORT_BY_DATE = "Date", SORT_BY_AVAILABILITY = "Availability";
 
@@ -17,7 +18,7 @@ const SORT_BY_RECOMMENDED = "Recommended", SORT_BY_DATE = "Date", SORT_BY_AVAILA
   moduleId: __filename,
   templateUrl: "./list.html",
   styleUrls: ["./list-common.css", "./list.css"],
-  providers: [TripService]
+  providers: [TripService, AuthService]
 })
 export class ListComponent implements AfterViewInit, OnInit {
   @ViewChild("container") container: ElementRef;
@@ -30,11 +31,12 @@ export class ListComponent implements AfterViewInit, OnInit {
   imageHeight = 219 * screen.mainScreen.widthDIPs / 350;
   imageStyle = `height: ${219 * screen.mainScreen.widthDIPs / 360}`;
   sortBy = SORT_BY_RECOMMENDED;
+  isAuthenticated = false;
 
-  constructor(private tripService: TripService, private page: Page, private router: Router) {
+  constructor(private authService: AuthService, private tripService: TripService, private page: Page, private router: Router) {
     this.page.actionBar.title = "OutingTravel";
     // ToDo: remove line below
-    //this.router.navigate(['/users/local-1e22817080e04b49f44742d0588654f6b383c97e137c1f55110860547a9c90ab']);
+    //this.router.navigate(['/login']);
   }
 
   @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
@@ -45,8 +47,10 @@ export class ListComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
+    this.updateAutenticationStatus();
     // ToDo: uncomment  
     this.refresh();
+    
   }
 
   refresh(args = null) {
@@ -129,6 +133,15 @@ export class ListComponent implements AfterViewInit, OnInit {
     const { id } = this.visibleTrips[args.index];
     const route = `/trips/${id}`;
     this.router.navigate([route]);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.updateAutenticationStatus();
+  }
+
+  updateAutenticationStatus() {
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   getPhoto(photo: any, size = "default") {
