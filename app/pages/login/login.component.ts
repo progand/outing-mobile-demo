@@ -9,7 +9,7 @@ import { AuthService } from "../../shared/auth/auth.service";
   moduleId: __filename,
   templateUrl: "./login.html",
   styleUrls: ["./login-common.css", "./login.css"],
-  providers: [AuthService]
+  providers: []
 })
 export class LoginComponent implements OnInit {
   email: String = 'lachdik@gmail.com';
