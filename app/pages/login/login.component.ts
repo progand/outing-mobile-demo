@@ -12,8 +12,8 @@ import { AuthService } from "../../shared/auth/auth.service";
   providers: []
 })
 export class LoginComponent implements OnInit {
-  email: String = 'lachdik@gmail.com';
-  password: String = '_QQww12_';
+  email: String = '';
+  password: String = '';
   isError = false;
   inProgress = false;
   isAuthenticated = false;
