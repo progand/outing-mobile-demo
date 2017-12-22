@@ -4,9 +4,11 @@ import { action } from "ui/dialogs";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Conversation } from "../../shared/conversation/conversation"; 
+import { Conversation } from "../../shared/conversation/conversation";
 import { ConversationService } from "../../shared/conversation/conversation.service";
- 
+import { AuthService } from "../../shared/auth/auth.service";
+import {getPhoto} from "../../shared/util/photo";
+
 @Component({
   selector: "conversations",
   moduleId: __filename,
@@ -22,12 +24,16 @@ export class ConversationsComponent implements OnInit {
   imageHeight = 219 * screen.mainScreen.widthDIPs / 350;
   imageStyle = `height: ${219 * screen.mainScreen.widthDIPs / 360}`;
 
-  constructor(private conversationService: ConversationService, private page: Page, private router: Router) {
+  constructor(private authService: AuthService, private conversationService: ConversationService, private page: Page, private router: Router) {
     this.page.actionBar.title = "Messages";
   }
 
   ngOnInit() {
-    this.refresh();    
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.refresh();
+    }
   }
 
   refresh(args = null) {
@@ -62,4 +68,36 @@ export class ConversationsComponent implements OnInit {
     const route = `/conversations/${id}`;
     this.router.navigate([route]);
   }
+
+  getLastMessage(conversation){
+    return conversation.messages.length ? conversation.messages[0].text : '';
+  }
+
+  getTitle(conversation){
+    // group conversation
+    if(!conversation.isIndividual && conversation.trip){
+      return conversation.trip.name;
+    } 
+    
+    // individual conversation
+    if(conversation.participants && conversation.participants.length){
+      const me = this.authService.getProfile();
+      const otherParticipant = conversation.participants.find(user => user.id !== me.id);
+      return otherParticipant && otherParticipant.name;
+    }
+  }
+
+  getConversationPhoto(conversation){
+    // group conversation
+    if(!conversation.isIndividual && conversation.trip){
+      return getPhoto(conversation.trip.coverPhoto);
+    } 
+
+    // individual conversation
+    if(conversation.participants && conversation.participants.length){
+      const me = this.authService.getProfile();
+      const otherParticipant = conversation.participants.find(user => user.id !== me.id);
+      return getPhoto(otherParticipant.photo);
+    }
+  }  
 }

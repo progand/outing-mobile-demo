@@ -17,8 +17,8 @@ const API_URL = Config.apiUrl;
 
 @Injectable()
 export class AuthService {
-    token: String = null;
-    profile = null;
+    private token: String = null;
+    private profile = null;
 
     constructor(private http: Http) {
         this.fetchToken();
@@ -49,6 +49,18 @@ export class AuthService {
         return this.profile || {};
     }
 
+    public getToken() {
+        return this.token;
+    }
+
+    public getAuthorizationHTTPHeaders(){
+        const headers = new Headers();
+        if(this.token){
+            headers.append("authorization", "Bearer " + this.token);
+        }
+        return headers;
+    }
+
     private updateToken(token) {
         this.token = token;
         if (token) {
@@ -68,9 +80,7 @@ export class AuthService {
             this.profile = null;
             return Promise.resolve();
         }
-        let headers = new Headers();
-        // set headers here e.g.
-        headers.append("authorization", "Bearer " + this.token);
+        const headers = this.getAuthorizationHTTPHeaders();
         const promise = this.http.get(API_URL + "/auth/profile", { headers: headers })
             .toPromise()
             .then(res => res.json())

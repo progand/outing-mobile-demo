@@ -37,6 +37,12 @@ export class ListComponent implements AfterViewInit, OnInit {
     this.page.actionBar.title = "OutingTravel";
     // ToDo: remove line below
     //this.router.navigate(['/conversations']);
+  }  
+
+  ngOnInit() {
+    this.updateAutenticationStatus();
+    // ToDo: uncomment  
+    this.refresh();    
   }
 
   @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
@@ -44,12 +50,6 @@ export class ListComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     this.drawer = this.drawerComponent.sideDrawer;
-  }
-
-  ngOnInit() {
-    this.updateAutenticationStatus();
-    // ToDo: uncomment  
-    this.refresh();    
   }
 
   refresh(args = null) {

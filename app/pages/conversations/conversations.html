@@ -1,12 +1,20 @@
 <GridLayout rows="auto, *">
 
   <PullToRefresh (refresh)="refresh($event)" row="1">
-    <ListView *ngIf="!error" [items]="conversations" [class.visible]="isLoaded">
+    <ListView *ngIf="!error && conversations.length" [items]="conversations" [class.visible]="isLoaded">
       <ng-template let-item="item">
-        <StackLayout class="">         
+        <StackLayout orientation="horizontal" class="conversation">
+          <Image [src]="getConversationPhoto(item)" stretch="aspectFill" decodeHeight="60" decodeWidth="60"></Image>
+          <StackLayout>
+            <Label [text]="getTitle(item)" class="title"></Label>
+            <Label [text]="getLastMessage(item)" class="muted"></Label>
+          </StackLayout>
         </StackLayout>
       </ng-template>
     </ListView>
+    <StackLayout *ngIf="!error && !(conversations && conversations.length)">
+      <Label text="No messages so far." horizontalAlignment="center"></Label>
+    </StackLayout>
     <StackLayout *ngIf="error">
       <Label text="Please, check your internet connection. " class="title"></Label>
       <Label text="An error occured:" class="error"></Label>
