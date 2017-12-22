@@ -1,7 +1,7 @@
 <GridLayout rows="auto, *">
 
   <PullToRefresh (refresh)="refresh($event)" row="1">
-    <ListView *ngIf="!error && conversations.length" [items]="conversations" [class.visible]="isLoaded">
+    <ListView *ngIf="!error && hasSomeConversations()" [items]="conversations" [class.visible]="isLoaded">
       <ng-template let-item="item">
         <StackLayout orientation="horizontal" class="conversation">
           <Image [src]="getConversationPhoto(item)" stretch="aspectFill" decodeHeight="60" decodeWidth="60"></Image>
@@ -12,7 +12,7 @@
         </StackLayout>
       </ng-template>
     </ListView>
-    <StackLayout *ngIf="!error && !(conversations && conversations.length)">
+    <StackLayout *ngIf="!isLoading && !error && !hasSomeConversations()">
       <Label text="No messages so far." horizontalAlignment="center"></Label>
     </StackLayout>
     <StackLayout *ngIf="error">

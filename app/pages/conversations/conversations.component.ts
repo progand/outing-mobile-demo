@@ -100,4 +100,8 @@ export class ConversationsComponent implements OnInit {
       return getPhoto(otherParticipant.photo);
     }
   }  
+
+  hasSomeConversations(){ 
+    return this.conversations && this.conversations.length;
+  }
 }
