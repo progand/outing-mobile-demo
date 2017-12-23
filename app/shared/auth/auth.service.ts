@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response, RequestOptions } from "@angular/http";
-import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
+import { Http, Headers, Response } from "@angular/http";
+import { Observable as RxObservable } from "rxjs/Observable";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+
 import {
     getString,
     setString,
@@ -17,8 +19,8 @@ const API_URL = Config.apiUrl;
 
 @Injectable()
 export class AuthService {
-    token: String = null;
-    profile = null;
+    private token: String = null;
+    private profile = null;
 
     constructor(private http: Http) {
         this.fetchToken();
@@ -30,10 +32,10 @@ export class AuthService {
         const promise = this.http.post(API_URL + "/auth/basic", data)
             .toPromise()
             .then(res => res.json())
-            .then(data => this.updateToken(data && data.signed))
+            .then((data:any) => this.updateToken(data && data.signed))
             .then(() => this.requestProfile());
 
-        return Observable.fromPromise(promise);
+        return RxObservable.fromPromise(promise);
     }
 
     public logout() {
@@ -45,8 +47,20 @@ export class AuthService {
         return !!this.token;
     }
 
-    public getProfile(){
+    public getProfile() {
         return this.profile || {};
+    }
+
+    public getToken() {
+        return this.token;
+    }
+
+    public getAuthorizationHTTPHeaders(){
+        const headers = new Headers();
+        if(this.token){
+            headers.append("authorization", "Bearer " + this.token);
+        }
+        return headers;
     }
 
     private updateToken(token) {
@@ -61,7 +75,6 @@ export class AuthService {
 
     private fetchToken() {
         this.token = getString(TOKEN);
-        console.log(`Fetched token ${this.token}`);
     }
 
     private requestProfile() {
@@ -69,13 +82,11 @@ export class AuthService {
             this.profile = null;
             return Promise.resolve();
         }
-        let headers = new Headers();
-        // set headers here e.g.
-        headers.append("authorization", "Bearer " + this.token);
+        const headers = this.getAuthorizationHTTPHeaders();
         const promise = this.http.get(API_URL + "/auth/profile", { headers: headers })
             .toPromise()
             .then(res => res.json())
-            .then(profile => {
+            .then((profile:any) => {
                 this.profile = profile;
                 return profile;
             });

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
-import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
+import { Observable as RxObservable } from "rxjs/Observable";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 import { Config } from "../config";
 import { Trip } from "./trip";
@@ -34,25 +35,24 @@ export class TripService {
                         trip.schedule,
                         trip.photos,
                         trip.tags,
-                        trip.travellers,
+                        trip.travellers
                     ));
                 });
                 return list;
-            })
-            .catch(this.handleErrors);
+            });
     }
 
     loadOne(id: String) {
         const promise = this.http.get(Config.apiUrl + "/models/trips/" + id)
             .toPromise()
             .then(res => res.json())
-            .then(data => data.trip)
+            .then((data:any) => data.trip)
             .then(trip => Promise.all([
                 trip,
                 this.http.get(Config.apiUrl + "/models/travellers/?ids[]=" + trip.travellers.join("&ids[]="))
                     .toPromise()
                     .then(res => res.json())
-                    .then(data => data.travellers)
+                    .then((data:any) => data.travellers)
             ]))
             .then(([trip, travellers]) => Promise.all([
                 trip,
@@ -62,7 +62,7 @@ export class TripService {
                     .join("&ids[]="))
                     .toPromise()
                     .then(res => res.json())
-                    .then(data => data.users)
+                    .then((data:any) => data.users)
             ]))
             .then(([trip, travellers, users]) => Promise.all([
                 trip,
@@ -76,7 +76,7 @@ export class TripService {
                     .join("&ids[]="))
                     .toPromise()
                     .then(res => res.json())
-                    .then(data => data.photos)
+                    .then((data:any) => data.photos)
             ]))
             .then(([trip, travellers, users, photos]) => Promise.all([
                 trip,
@@ -96,12 +96,7 @@ export class TripService {
                         user: this.getByValue(users, traveller.user)
                     }))
             }));
-        return Observable.fromPromise(promise);
-    }
-
-    handleErrors(error: Response) {
-        console.log(JSON.stringify(error.json()));
-        return Observable.throw(error);
+        return RxObservable.fromPromise(promise);
     }
 
     deserialize(data: any) {

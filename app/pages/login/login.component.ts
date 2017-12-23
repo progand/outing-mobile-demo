@@ -9,11 +9,11 @@ import { AuthService } from "../../shared/auth/auth.service";
   moduleId: __filename,
   templateUrl: "./login.html",
   styleUrls: ["./login-common.css", "./login.css"],
-  providers: [AuthService]
+  providers: []
 })
 export class LoginComponent implements OnInit {
-  email: String = 'lachdik@gmail.com';
-  password: String = '_QQww12_';
+  email: String = '';
+  password: String = '';
   isError = false;
   inProgress = false;
   isAuthenticated = false;
@@ -31,13 +31,14 @@ export class LoginComponent implements OnInit {
 
     this.inProgress = true;
     this.authService.login(this.email, this.password)
-      .finally(() => this.inProgress = false)
       .subscribe(profile => {
         this.isError = false;
+        this.inProgress = false;
         this.router.navigate([`/`]);
       },
       err => {
         this.isError = true;
+        this.inProgress = false;
       });
   }
 

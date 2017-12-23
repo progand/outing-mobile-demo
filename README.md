@@ -95,3 +95,9 @@ Example build command:
 ```
 npm run build-android-bundle --uglify --snapshot -- --release --key-store-path ~/outing.jks --key-store-password outing --key-store-alias outing --key-store-alias-password outing
 ```
+
+or (far latest version):
+
+```
+tns build android --bundle --env.aot --env.uglify --env.snapshot --release --keyStorePath ~/outing.jks --keyStorePassword outing --keyStoreAlias outing --keyStoreAliasPassword outing
+```

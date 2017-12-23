@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response, RequestOptions } from "@angular/http";
-import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
+import { Http, Headers, Response } from "@angular/http";
+import { Observable as RxObservable } from "rxjs/Observable";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 import { Config } from "../config";
 import { User } from "./user";
@@ -50,19 +51,19 @@ export class UserService {
                         trip: this.getByValue(trips, traveller.trip)
                     }))
             }));
-        return Observable.fromPromise(promise);
+        return RxObservable.fromPromise(promise);
     }
 
     getByValue(collection, fieldValue, fieldName = 'id') {
         return collection.find(item => item[fieldName] === fieldValue);
     }
 
-    login(email: String, password: String) {       
+    login(email: String, password: String) {
         const data = { email, password };
         const promise = this.http.post(Config.apiUrl + "/auth/basic", data)
             .toPromise()
             .then(res => res.json());
 
-        return Observable.fromPromise(promise);
+        return RxObservable.fromPromise(promise);
     }
 }

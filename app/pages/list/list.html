@@ -16,7 +16,8 @@
       <Label *ngIf="!isAuthenticated" text="Login" [nsRouterLink]="['/login']" class="sideLabel"></Label>
       <StackLayout *ngIf="isAuthenticated">
         <Label text="Profile" [nsRouterLink]="['/users/' + authService.getProfile().id]" class="sideLabel"></Label>
-        <Label text="Logout" (tap)="logout()" class="sideLabel sideLightGrayLabel"></Label>
+        <Label text="Messages" [nsRouterLink]="['/conversations']" class="sideLabel sideLightGrayLabel"></Label>
+        <Label text="Logout" (tap)="logout()" class="sideLabel"></Label>
       </StackLayout>
     </StackLayout>
     <Label text="Close" color="lightgray" padding="10" style="horizontal-align: center" (tap)="onToggleDrawerTap()"></Label>
