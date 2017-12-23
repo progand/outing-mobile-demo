@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
-import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
+import { Observable as RxObservable } from "rxjs/Observable";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 import { Config } from "../config";
 import { Conversation } from "./conversation";
@@ -75,7 +76,7 @@ export class ConversationService {
                     .sort((message1, message2) => message1.createdAt < message2.createdAt ? 1 : -1),
             })).sort(this.sortByLastMessageDate));
 
-        return Observable.fromPromise(promise);
+        return RxObservable.fromPromise(promise);
     }
 
     getByValue(collection, fieldValue, fieldName = 'id') {

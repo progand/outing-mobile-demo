@@ -31,13 +31,14 @@ export class LoginComponent implements OnInit {
 
     this.inProgress = true;
     this.authService.login(this.email, this.password)
-      .finally(() => this.inProgress = false)
       .subscribe(profile => {
         this.isError = false;
+        this.inProgress = false;
         this.router.navigate([`/`]);
       },
       err => {
         this.isError = true;
+        this.inProgress = false;
       });
   }
 

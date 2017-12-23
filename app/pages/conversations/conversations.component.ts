@@ -102,6 +102,6 @@ export class ConversationsComponent implements OnInit {
   }  
 
   hasSomeConversations(){ 
-    return this.conversations && this.conversations.length;
+    return !!this.conversations && this.conversations.length > 0;
   }
 }

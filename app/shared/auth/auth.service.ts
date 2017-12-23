@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response, RequestOptions } from "@angular/http";
-import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
+import { Http, Headers, Response } from "@angular/http";
+import { Observable as RxObservable } from "rxjs/Observable";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+
 import {
     getString,
     setString,
@@ -30,10 +32,10 @@ export class AuthService {
         const promise = this.http.post(API_URL + "/auth/basic", data)
             .toPromise()
             .then(res => res.json())
-            .then(data => this.updateToken(data && data.signed))
+            .then((data:any) => this.updateToken(data && data.signed))
             .then(() => this.requestProfile());
 
-        return Observable.fromPromise(promise);
+        return RxObservable.fromPromise(promise);
     }
 
     public logout() {
@@ -84,7 +86,7 @@ export class AuthService {
         const promise = this.http.get(API_URL + "/auth/profile", { headers: headers })
             .toPromise()
             .then(res => res.json())
-            .then(profile => {
+            .then((profile:any) => {
                 this.profile = profile;
                 return profile;
             });
