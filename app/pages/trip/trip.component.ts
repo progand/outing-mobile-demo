@@ -3,8 +3,10 @@ import { Page } from "ui/page";
 import { ScrollEventData } from "ui/scroll-view";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
+import * as SocialShare from "nativescript-social-share";
 import { Trip } from "../../shared/trip/trip";
 import { TripService } from "../../shared/trip/trip.service";
+import { Config } from "../../shared/config";
 
 @Component({
   selector: "trip",
@@ -65,6 +67,11 @@ export class TripComponent implements OnInit {
   openTraveller(args) {
     const userId = this.trip.travellers[args.index].user.id;
     this.router.navigate([`/users/${userId}`]);
+  }
+
+  share(){
+    const url = Config.apiUrl + '/trips/' + this.trip.id;
+    SocialShare.shareUrl(url, "Home of NativeScript", "How would you like to share this trip?");
   }
 
   getPhoto(photo: any, size = "default") {
