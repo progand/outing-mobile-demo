@@ -11,7 +11,7 @@ You will need the following things properly installed on your computer.
 * [Nativescript CLI](https://docs.nativescript.org/angular/start/quick-setup#step-2-install-the-nativescript-cli)
 * [iOS or Android requirements](https://docs.nativescript.org/angular/start/quick-setup#step-3-install-ios-and-android-requirements)
 
->If you cane across proplems during installation check out [Troubleshooting](https://docs.nativescript.org/angular/start/troubleshooting)
+>If you came across proplems during installation check out [Troubleshooting](https://docs.nativescript.org/angular/start/troubleshooting)
 
 ## Installation
 
@@ -42,13 +42,13 @@ These commands deploy not-optimized build to the device or emulator.
 You can try optimized build on your device or emulator before publishing. Optimization makes app load faster. However build process is slow and not aimed for development.
 
 ```
-npm run start-ios-bundle --uglify // for iOs
+tns build ios --bundle --env.aot --env.uglify // for iOs
 ```
 
 or 
 
 ```
-npm run start-android-bundle --uglify --snapshot // for android
+tns build android --bundle --env.aot --env.uglify --env.snapshot // for android
 ```
 
 ### Publishing
@@ -66,7 +66,7 @@ tns prepare ios --release
 You can build a bundled version of the application for iOS in release with this script:
 
 ```
-npm run build-ios-bundle -- --release --forDevice --teamId TEAM_ID
+tns build ios --bundle --release --forDevice --teamId TEAM_ID
 ```
 
 2. Open the iOS native project in Xcode. Your native project is located at: `{app-name}/platforms/ios/{app-name}.xcodeproj`.
@@ -84,19 +84,13 @@ You can publish a NativeScript app in Google Play the same way [you would releas
 2. Build your project in release mode by running the following command: 
 
 ```
-npm run build-android-bundle -- --release --keyStorePath ~/path/to/keystore --keyStorePassword your-pass --keyStoreAlias your-alias --keyStoreAliasPassword your-alias-pass
+tns build android --bundle --release --keyStorePath ~/path/to/keystore --keyStorePassword your-pass --keyStoreAlias your-alias --keyStoreAliasPassword your-alias-pass
 ```
 
 3. Obtain the release .apk located at `<app_name>/platforms/android/build/outputs/apk/<app_name>-release.apk`.
 4. Publish your Android app by uploading the .apk file to the Google Developer Console. For more information, see [How to publish an Android app](http://developer.android.com/distribute/googleplay/start.html)?
 
 Example build command: 
-
-```
-npm run build-android-bundle --uglify --snapshot -- --release --key-store-path ~/outing.jks --key-store-password outing --key-store-alias outing --key-store-alias-password outing
-```
-
-or (far latest version):
 
 ```
 tns build android --bundle --env.aot --env.uglify --env.snapshot --release --keyStorePath ~/outing.jks --keyStorePassword outing --keyStoreAlias outing --keyStoreAliasPassword outing
