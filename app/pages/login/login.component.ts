@@ -3,6 +3,7 @@ import { Page } from "ui/page";
 import { Component, ElementRef, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from "../../shared/auth/auth.service";
+const emailValidator = require("email-validator");
 
 @Component({
   selector: "login",
@@ -27,6 +28,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    if (!this.isEmailValid()) {
+      alert("Enter a valid email address.");
+      return;
+    }
     console.log(`Singing in as ${this.email} with password ${this.password}`);
 
     this.inProgress = true;
@@ -49,5 +54,9 @@ export class LoginComponent implements OnInit {
 
   updateAutenticationStatus() {
     this.isAuthenticated = this.authService.isAuthenticated();
+  }
+
+  isEmailValid() {
+    return emailValidator.validate(this.email);
   }
 }
