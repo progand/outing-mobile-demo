@@ -5,6 +5,7 @@
     <ScrollView *tabItem="{title: 'General'}">
       <StackLayout>
         <ImageSwipe *ngIf="trip.photos.length" [items]="images" imageUrlProperty="url" [height]="imageHeight"></ImageSwipe>
+        <Button text="Share" (tap)="share()" class="share-button"></Button>
         <Label [text]="trip.name"></Label>
         <StackLayout [nsRouterLink]="['/users/' + trip.organiser.id]" class="organiser" orientation="horizontal">
           <Image [src]="getPhoto(trip.organiser.photo)" stretch="aspectFit"></Image>
